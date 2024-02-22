@@ -5,164 +5,70 @@
     <!-- added google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="style.css">
     <link
       href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <style>
-      .peerConnectionState-new {
-        color: cornflowerblue;
-      }
-      .peerConnectionState-connecting {
-        color: orange;
-      }
-      .peerConnectionState-connected {
-        color: green;
-      }
-      .peerConnectionState-disconnected,
-      .peerConnectionState-closed,
-      .peerConnectionState-failed {
-        color: red;
-      }
-
-      .iceConnectionState-new {
-        color: cornflowerblue;
-      }
-      .iceConnectionState-checking {
-        color: orange;
-      }
-      .iceConnectionState-connected,
-      .iceConnectionState-completed {
-        color: green;
-      }
-      .peerConnectionState-disconnected,
-      .peerConnectionState-closed,
-      .peerConnectionState-failed {
-        color: red;
-      }
-
-      .iceGatheringState-new {
-        color: cornflowerblue;
-      }
-      .iceGatheringState-gathering {
-        color: orange;
-      }
-      .iceGatheringState-complete {
-        color: black;
-      }
-
-      .signalingState-stable {
-        color: green;
-      }
-      .signalingState-have-local-offer,
-      .signalingState-have-remote-offer,
-      .signalingState-have-local-pranswer,
-      .signalingState-have-remote-pranswer {
-        color: cornflowerblue;
-      }
-      .signalingState-closed {
-        color: red;
-      }
-
-      .streamingState-streaming {
-        color: green;
-      }
-
-      .streamingState-empty {
-        color: grey;
-      }
-
-      /* added css from here */
-
-      body * {
-        font-family: 'Mulish', sans-serif;
-        text-align: center;
-      }
-
-      #content {
-        width: 820px;
-        position: relative;
-        margin: 0 auto;
-      }
-
-      #buttons {
-        clear: both;
-        padding: 0 0 0 0;
-        text-align: center;
-      }
-
-      button {
-        padding: 10px 20px;
-        border-radius: 5px;
-        border: none;
-        font-size: 16px;
-        margin: 0 5px;
-        background-color: #7459fe;
-        color: #fff;
-      }
-
-      button:hover {
-        background-color: #9480ff;
-        cursor: pointer;
-        transition: all 0.2s ease-out;
-      }
-
-      #status {
-        clear: both;
-        padding: 20px 0 0 0;
-        text-align: left;
-        display: inline-block;
-        zoom: 1;
-        line-height: 140%;
-        font-size: 15px;
-      }
-
-      #status div {
-        padding-bottom: 10px;
-      }
-
-      #video-wrapper {
-        background: url(bg.png);
-        height: 500px;
-        background-position: top;
-      }
-
-      #video-wrapper div {
-        width: 400px;
-        margin: 0 auto;
-        padding: 50px 0 0 0;
-      }
-      video {
-        display: block;
-        /*border:1px solid;*/
-        border-radius: 50%;
-        background-color: #fff;
-      }
+      
     </style>
   </head>
 
   <body>
+    <nav>
+      <div class="logo">
+        <img src="./mescet-logo.png" alt="">
+      </div>
+      <span id="menu" class="material-symbols-outlined">
+        menu
+      </span>
+      <span id="close" class="material-symbols-outlined">
+        close
+      </span>
+    </nav>
+    <div class="side-bar" id="side-bar">
+      <div class="item">Dashboard</div>
+      <div class="item">Generate</div>
+      <div class="item">Settings</div>
+    </div>
     <!-- adde "id=content" -->
     <div id="content">
       <!-- added "id=video-wrapper" -->
-      <div id="video-wrapper">
-        <div>
-          <video id="video-element" width="400" height="400" autoplay></video>
+      <div class="main">
+        <div id="video-wrapper">
+          <div>
+            <video id="video-element" width="400" height="400" autoplay></video>
+          </div>
+        </div>
+
+        <!-- added div#buttons -->
+        <div id="buttons">
+          <button id="connect-button" hidden type="button">Connect</button>
+          <button id="start-button" type="button" hidden>Start</button>
+          <button id="destroy-button" hidden type="button">Destroy</button>
+          <br>
+          <button id="ask-button" style="margin-top: 1rem;" type="button">Ask</button>
+          <button id="clear-button" type="button">Clear</button>
+          <button id="submit-button" type="button">Get Answer</button>
         </div>
       </div>
-      <br />
 
-      <!-- added div#buttons -->
-      <div id="buttons">
-        <button id="connect-button" type="button">Connect</button>
-        <button id="start-button" type="button">Start</button>
-        <button id="destroy-button" type="button">Destroy</button>
+      <div class="qa-box">
+        <div class="q-box">
+          <h3>Question : </h3>
+          <textarea name="question" id="question" cols="50" rows="2" disabled></textarea>
+        </div>
+        <div class="a-box">
+          <h3>Answer : </h3>
+          <textarea name="question" id="answer" cols="50" rows="10" disabled></textarea>
+        </div>
       </div>
 
-      <!-- added div#status -->
       <div id="status">
-        <!-- removed the wrapping <div> tags -->
         ICE gathering status: <label id="ice-gathering-status-label"></label
         ><br />
         ICE status: <label id="ice-status-label"></label><br />

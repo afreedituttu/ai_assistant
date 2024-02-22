@@ -1,0 +1,184 @@
+/* MY CODE */
+h3{
+  text-align: left;
+}
+#question, #answer {
+  resize: none;
+}
+#content{
+  display: grid;
+  grid-template-columns: 2fr 1fr 0.5fr;
+  gap: 3rem;
+  padding: 1rem;
+}
+nav{
+  border-bottom: 1px solid #333;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nav .logo img{
+  width: 100%;
+  max-width: 300px;
+}
+#menu{
+  cursor: pointer;
+}
+#close{
+  display: none;
+  cursor: pointer;
+}
+.side-bar{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  height: 100%;
+  width: 0px;
+  transition: 0.3s ease;
+  overflow: hidden;
+  border-right: 1px solid #333;
+}
+.item{
+  padding: 1rem 1rem;
+  padding-left: 3rem;
+  border-bottom: 1px solid #9c9999;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.side-bar .item:nth-child(2), .side-bar .item:nth-child(3){
+  color: rgb(161, 161, 161);
+}
+@media (max-width:700px){
+  #content{
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+/* END OF MY CODE */
+
+.peerConnectionState-new {
+  color: cornflowerblue;
+}
+.peerConnectionState-connecting {
+  color: orange;
+}
+.peerConnectionState-connected {
+  color: green;
+}
+.peerConnectionState-disconnected,
+.peerConnectionState-closed,
+.peerConnectionState-failed {
+  color: red;
+}
+
+.iceConnectionState-new {
+  color: cornflowerblue;
+}
+.iceConnectionState-checking {
+  color: orange;
+}
+.iceConnectionState-connected,
+.iceConnectionState-completed {
+  color: green;
+}
+.peerConnectionState-disconnected,
+.peerConnectionState-closed,
+.peerConnectionState-failed {
+  color: red;
+}
+
+.iceGatheringState-new {
+  color: cornflowerblue;
+}
+.iceGatheringState-gathering {
+  color: orange;
+}
+.iceGatheringState-complete {
+  color: black;
+}
+
+.signalingState-stable {
+  color: green;
+}
+.signalingState-have-local-offer,
+.signalingState-have-remote-offer,
+.signalingState-have-local-pranswer,
+.signalingState-have-remote-pranswer {
+  color: cornflowerblue;
+}
+.signalingState-closed {
+  color: red;
+}
+
+.streamingState-streaming {
+  color: green;
+}
+
+.streamingState-empty {
+  color: grey;
+}
+
+/* added css from here */
+
+body * {
+  font-family: 'Mulish', sans-serif;
+}
+
+#buttons {
+  clear: both;
+  padding: 0 0 0 0;
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  margin: 0 5px;
+  background-color: #7459fe;
+  color: #fff;
+}
+
+button:hover {
+  background-color: #9480ff;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+#status {
+  clear: both;
+  padding: 20px 0 0 0;
+  text-align: left;
+  display: inline-block;
+  zoom: 1;
+  line-height: 140%;
+  font-size: 15px;
+}
+
+#status div {
+  padding-bottom: 10px;
+}
+
+#video-wrapper {
+  background: url(bg.png);
+  height: 500px;
+  background-position: top;
+}
+
+#video-wrapper div {
+  width: 400px;
+  margin: 0 auto;
+  padding: 0px 0 0 0;
+}
+video {
+  display: block;
+  /*border:1px solid;*/
+  border-radius: 50%;
+  background-color: #fff;
+}

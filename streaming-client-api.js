@@ -9,6 +9,57 @@ const RTCPeerConnection = (
   window.mozRTCPeerConnection
 ).bind(window);
 
+// ASK CODE 
+const recogonition = new (window.speechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+recogonition.lang = 'en-US';
+
+let askButton = document.getElementById('ask-button');
+let question = document.getElementById('question');
+let answer = document.getElementById('answer');
+let clear = document.getElementById('clear-button');
+let submit = document.getElementById('submit-button');
+const menu = document.getElementById('menu');
+const side_bar = document.getElementById('side-bar');
+const close = document.getElementById('close')
+
+menu.addEventListener('click',()=>{
+  console.log('clicked');
+  menu.style.display = "none"
+  close.style.display = "block"
+  side_bar.style.width = '200px'
+})
+close.addEventListener('click',()=>{
+  close.style.display = "none"
+  menu.style.display = "block"
+  side_bar.style.width = '0px'
+})
+
+recogonition.onstart = ()=> {
+  askButton.textContent = 'Listening...'
+  setTimeout(()=>{
+  }, [3000])
+}
+recogonition.onresult = (event)=> {
+  console.log(event);
+  let old_content = question.textContent
+  const transcript = event.results[0][0].transcript;
+  question.textContent = old_content + " " + transcript
+  console.log('old_content ', old_content);
+  console.log('transcript ', transcript);
+  console.log('result ', old_content + transcript);
+}
+recogonition.onend = ()=> {
+  askButton.textContent = 'Ask'
+}
+askButton.onclick = ()=> {
+  recogonition.start();
+}
+clear.onclick = ()=> {
+  question.textContent = ""
+}
+
+// END OF ASK CODE 
+
 let peerConnection;
 let streamId;
 let sessionId;
@@ -17,6 +68,7 @@ let sessionClientAnswer;
 let statsIntervalId;
 let videoIsPlaying;
 let lastBytesReceived;
+let reply = "";
 
 const videoElement = document.getElementById('video-element');
 videoElement.setAttribute('playsinline', '');
@@ -37,7 +89,9 @@ const presenterInputByService = {
 }
 
 const connectButton = document.getElementById('connect-button');
+
 connectButton.onclick = async () => {
+  // await fetch('/log',{method:"GET"}).then(res=>res.json()).then(data=>{console.log(data);})
   if (peerConnection && peerConnection.connectionState === 'connected') {
     return;
   }
@@ -53,7 +107,6 @@ connectButton.onclick = async () => {
     },
     body: JSON.stringify(presenterInputByService[DID_API.service]),
   });
-
   const { id: newStreamId, offer, ice_servers: iceServers, session_id: newSessionId } = await sessionResponse.json();
   streamId = newStreamId;
   sessionId = newSessionId;
@@ -80,8 +133,32 @@ connectButton.onclick = async () => {
   });
 };
 
+// document.addEventListener('DOMContentLoaded',()=>{
+//   connectButton.click()
+// })
+
 const startButton = document.getElementById('start-button');
+
+submit.onclick = async()=> {
+  await fetch('/answer',
+  {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      "question":question.textContent,
+      "test":"success"
+    })
+  }).then(result=>result.json()).then(data=>{
+    console.log(data.result);
+    answer.textContent = data.result
+    reply = data.result
+    startButton.click()
+  })
+}
+
 startButton.onclick = async () => {
+  console.log(reply);
+  console.log(typeof(reply));
   // connectionState not supported in firefox
   if (peerConnection?.signalingState === 'stable' || peerConnection?.iceConnectionState === 'connected') {
     const playResponse = await fetchWithRetries(`${DID_API.url}/${DID_API.service}/streams/${streamId}`, {
@@ -91,18 +168,27 @@ startButton.onclick = async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        script: {
-          type: 'audio',
-          audio_url: 'https://d-id-public-bucket.s3.us-west-2.amazonaws.com/webrtc.mp3',
+        "script": {
+          "type": "text",
+          "subtitles": "false",
+          "provider": {
+            "type": "microsoft",
+            "voice_id": "en-US-AndrewNeural"
+          },
+          "ssml": "false",
+          "input": reply
         },
         ...(DID_API.service === 'clips' && {
           background: {
             color: '#FFFFFF'
           }
         }),
-        config: {
-          stitch: true,
+        "config": {
+          "fluent": "false",
+          "pad_audio": "0.0",
+          "stitch":true
         },
+        "audio_optimization": 3,
         session_id: sessionId,
       }),
     });
