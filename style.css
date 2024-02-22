@@ -53,6 +53,12 @@ nav .logo img{
 .side-bar .item:nth-child(2), .side-bar .item:nth-child(3){
   color: rgb(161, 161, 161);
 }
+footer{
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: 2rem;
+  border-top: 1px solid #333;
+}
 @media (max-width:700px){
   #content{
     display: grid;

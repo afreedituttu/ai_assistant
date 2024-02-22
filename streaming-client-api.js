@@ -133,9 +133,9 @@ connectButton.onclick = async () => {
   });
 };
 
-// document.addEventListener('DOMContentLoaded',()=>{
-//   connectButton.click()
-// })
+document.addEventListener('DOMContentLoaded',()=>{
+  connectButton.click()
+})
 
 const startButton = document.getElementById('start-button');
 
